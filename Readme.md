@@ -1,83 +1,135 @@
-Your Way Ally — Streamlit Chatbot (Tamamen Ücretsiz)
-====================================================
+# Your Way Ally — Streamlit Seyahat Chatbotu
 
-Bu proje, tamamen ücretsiz API'ler ve yerel LLM (Ollama) kullanarak çalışan,
-web tabanlı bir seyahat chatbot uygulamasıdır.
+Tamamen ücretsiz API'ler ve yerel LLM kullanarak çalışan, akıllı seyahat asistanı uygulaması.
 
-Özellikler
-----------
-- Yerel LLM: Ollama (llama3:8b-instruct varsayılan)
-- Hava durumu bilgisi: Open-Meteo API (API anahtarı gerektirmez)
-- Destinasyon arama: OpenTripMap API (ücretsiz plan)
-- "Yakınımdakiler" özelliği: OpenTripMap /places/radius
-- Basit ve profesyonel Streamlit arayüzü
-- Rate-limit ve cache mekanizması
-- Modüler yapı (`app.py`, `tools.py`, `utils.py`)
+## ✨ Özellikler
 
-Proje Yapısı
-------------
+- **🤖 Yerel LLM**: Ollama ile çalışır (llama3:8b-instruct varsayılan)
+- **🌤️ Hava Durumu**: Open-Meteo API (API anahtarı gerektirmez)
+- **📍 Destinasyon Keşfi**: OpenTripMap API ile gezilecek yerler
+- **🎯 Yakınımdakiler**: Konum bazlı öneriler
+- **💬 Akıllı Sohbet**: Doğal dil işleme ile seyahat planlaması
+- **⚡ Hızlı ve Güvenli**: Rate-limit koruması ve önbellek sistemi
+
+## 📁 Proje Yapısı
+
+```
 yourwayally-streamlit/
-│
 ├── app.py                 # Ana Streamlit uygulaması
-├── tools.py               # API araçları (hava, yerler, geocode vb.)
-├── utils.py               # Ortak yardımcı fonksiyonlar
-├── requirements.txt       # Python bağımlılık listesi
-├── README.txt              # Bu dosya
+├── tools.py               # API araçları (hava, yerler, geocode)
+├── utils.py               # Yardımcı fonksiyonlar ve RateLimiter
+├── requirements.txt       # Python bağımlılıkları
+├── README.md             # Bu dosya
 └── .streamlit/
-    └── secrets.toml        # API anahtarları ve ayarlar
+    └── secrets.toml       # Yapılandırma dosyası
+```
 
-Gereksinimler
--------------
+## 🚀 Hızlı Başlangıç
+
+### 1. Önkoşullar
 - Python 3.10+
-- pip (Python paket yöneticisi)
-- Ollama (https://ollama.com)
-- OpenTripMap ücretsiz API anahtarı (https://opentripmap.io)
+- [Ollama](https://ollama.com) kurulu olmalı
+- [OpenTripMap](https://opentripmap.io) ücretsiz API anahtarı
 
-Kurulum
--------
-1. Depoyu bilgisayarına al (veya yeni klasör oluştur).
-2. Terminal / PowerShell'de proje kök dizinine git:
-   cd "C:\Users\<KullanıcıAdı>\PycharmProjects\yourwayally-streamlit"
+### 2. Kurulum
 
-3. Sanal ortam oluştur ve aktif et:
-   python -m venv .venv
-   .venv\Scripts\activate      (Windows)
-   source .venv/bin/activate   (Mac/Linux)
+```bash
+# Projeyi indirin
+git clone [repo-url] yourwayally-streamlit
+cd yourwayally-streamlit
 
-4. Bağımlılıkları yükle:
-   pip install -r requirements.txt
+# Sanal ortam oluşturun
+python -m venv .venv
 
-5. .streamlit/secrets.toml dosyasını oluştur:
-   mkdir .streamlit
-   notepad .streamlit\secrets.toml
-   İçerik:
-   --------------------------------
-   OLLAMA_BASE_URL = "http://localhost:11434"
-   OLLAMA_MODEL = "llama3:8b-instruct"
-   OPENTRIPMAP_API_KEY = "senin_otm_anahtarın"
-   --------------------------------
+# Sanal ortamı etkinleştirin
+# Windows:
+.venv\Scripts\activate
+# Mac/Linux:
+source .venv/bin/activate
 
-6. Ollama’yı kur ve modeli indir:
-   ollama pull llama3:8b-instruct
+# Bağımlılıkları yükleyin
+pip install -r requirements.txt
+```
 
-Çalıştırma
-----------
+### 3. Yapılandırma
+
+`.streamlit/secrets.toml` dosyasını oluşturun:
+
+```toml
+OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_MODEL = "llama3:8b-instruct"
+OPENTRIPMAP_API_KEY = "your_api_key_here"
+```
+
+### 4. Ollama Modelini İndirin
+
+```bash
+ollama pull llama3:8b-instruct
+```
+
+### 5. Uygulamayı Başlatın
+
+```bash
 streamlit run app.py
+```
 
-Kullanım
---------
-- Sohbet kutusuna sorularını yaz.
-- "yakın" veya "gezilecek" gibi kelimeler geçtiğinde OpenTripMap'ten öneriler gelir.
-- "38.42, 27.14" gibi koordinatlar yazarsan hava durumu bilgisi eklenir.
-- Lat/lon veya şehir adı ile "yakınımdakiler" özelliğini kullanabilirsin.
+Uygulama `http://localhost:8501` adresinde açılacaktır.
 
-İpuçları
---------
-- API limitine takılmamak için `utils.py` içindeki RateLimiter değerini artırabilirsin.
-- Daha spesifik arama yapmak için OpenTripMap "kinds" parametresini kullanabilirsin.
-- Nominatim geocode özelliği ile şehir adlarını otomatik lat/lon’a çevirebilirsin.
+## 💡 Kullanım Örnekleri
 
-Lisans
-------
-Bu proje açık kaynaklıdır. API sağlayıcıların ücretsiz kullanım politikalarına
-uymak kaydıyla ticari olmayan projelerde kullanılabilir.
+- **Seyahat Planlaması**: "İstanbul'da 3 günlük gezi planı yap"
+- **Hava Durumu**: "İzmir'in hava durumu nasıl?"
+- **Yakın Yerler**: "41.0082, 28.9784 yakınındaki müzeler"
+- **Genel Sorular**: "Kapadokya'da ne yapabilirim?"
+
+## ⚙️ Gelişmiş Ayarlar
+
+### Rate Limiting Ayarları
+`utils.py` dosyasındaki `RateLimiter` sınıfını kullanarak API çağrı limitlerini kontrol edebilirsiniz.
+
+### OpenTripMap Kategori Filtreleri
+Gezilecek yerleri kategorilere göre filtrelemek için `kinds` parametresini kullanabilirsiniz:
+- `museums` - Müzeler
+- `historic` - Tarihi yerler
+- `natural` - Doğal yerler
+- `architecture` - Mimari yapılar
+
+## 🔧 Sorun Giderme
+
+### Ollama Bağlantı Problemi
+```bash
+# Ollama servisinin çalıştığını kontrol edin
+ollama serve
+```
+
+### API Anahtarı Hatası
+OpenTripMap API anahtarınızın geçerli olduğundan ve `secrets.toml` dosyasında doğru yazıldığından emin olun.
+
+### Port Çakışması
+Eğer 8501 portu kullanımda ise:
+```bash
+streamlit run app.py --server.port 8502
+```
+
+## 🤝 Katkıda Bulunma
+
+1. Bu repository'yi fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Değişikliklerinizi commit edin (`git commit -m 'Add amazing feature'`)
+4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
+5. Pull Request oluşturun
+
+## 📄 Lisans
+
+Bu proje açık kaynaklıdır ve MIT lisansı altında dağıtılmaktadır. API sağlayıcıların kullanım koşullarına uygun olarak kullanınız.
+
+## 🆘 Destek
+
+Sorularınız için:
+- Issues sekmesinden yeni bir konu açın
+- Dokümantasyonu kontrol edin
+- Community forumlarından yardım alın
+
+---
+
+**Not**: Bu uygulama ücretsiz API'ler kullandığı için kullanım limitleri bulunmaktadır. Yoğun kullanım için ücretli planları değerlendirebilirsiniz.
