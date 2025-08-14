@@ -1,4 +1,10 @@
 streamlit>=1.37
 requests>=2.31
 pydantic>=2.7
-python-dotenv>=1.0
+python-dotenv>=1.0p
+streamlit
+plotly
+pandas
+numpy
+requests
+# diğer kullandığınız kütüphaneler
